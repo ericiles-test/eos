@@ -12,7 +12,7 @@ steps:
     artifact_paths: "build.tar.gz"
     timeout: 30
 
-  - command:
+  - command: |
         echo "+++ :hammer: Building" && \
         echo 1 | ./eosio_build.sh && \
         echo "--- :compression: Compressing build directory" && \
