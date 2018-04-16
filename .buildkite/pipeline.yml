@@ -53,7 +53,21 @@ steps:
       docker#v1.1.1:
         image: "eosio/ci:centos"
         workdir: /data/job
-        
+
+  - command: |
+        echo "+++ :hammer: Building" && \
+        echo 1 | ./eosio_build.sh && \
+        echo "--- :compression: Compressing build directory" && \
+        tar -pczf build.tar.gz build/
+    label: ":aws: Build"
+    agents:
+      - "role=linux-builder"
+    artifact_paths: "build.tar.gz"
+    plugins:
+      docker#v1.1.1:
+        image: "eosio/ci:amazonlinux"
+        workdir: /data/job
+
   - wait
 
   - command: |
@@ -119,4 +133,21 @@ steps:
     plugins:
       docker#v1.1.1:
         image: "eosio/ci:centos"
+        workdir: /data/job
+
+  - command: |
+        echo "--- :arrow_down: Downloading build directory" && \
+        buildkite-agent artifact download "build.tar.gz" . --step ":aws: Build" &&
+        tar -zxf build.tar.gz && \
+        echo "--- :m: Starting MongoDB" && \
+        $(which mongod) --fork --logpath "$(pwd)"/mongod.log && \
+        echo "+++ :microscope: Running tests" && \
+        cd /data/job/build && make test
+    label: ":aws: Tests"
+    agents:
+      - "role=linux-builder"
+    artifact_paths: "mongod.log"
+    plugins:
+      docker#v1.1.1:
+        image: "eosio/ci:amazonlinux"
         workdir: /data/job
