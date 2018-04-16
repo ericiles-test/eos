@@ -94,7 +94,7 @@ steps:
         cd /data/job/build && make test
     label: ":ubuntu: Tests"
     agents:
-      - "role=linux-builder"
+      - "role=linux-tester"
     artifact_paths: "mongod.log"
     plugins:
       docker#v1.1.1:
@@ -111,7 +111,7 @@ steps:
         cd /data/job/build && make test
     label: ":fedora: Tests"
     agents:
-      - "role=linux-builder"
+      - "role=linux-tester"
     artifact_paths: "mongod.log"
     plugins:
       docker#v1.1.1:
@@ -128,7 +128,7 @@ steps:
         cd /data/job/build && make test
     label: ":centos: Tests"
     agents:
-      - "role=linux-builder"
+      - "role=linux-tester"
     artifact_paths: "mongod.log"
     plugins:
       docker#v1.1.1:
@@ -145,7 +145,7 @@ steps:
         cd /data/job/build && make test
     label: ":aws: Tests"
     agents:
-      - "role=linux-builder"
+      - "role=linux-tester"
     artifact_paths: "mongod.log"
     plugins:
       docker#v1.1.1:
