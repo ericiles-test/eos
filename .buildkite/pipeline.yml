@@ -40,7 +40,7 @@ steps:
         image: "eosio/ci:fedora"
         workdir: /data/job
  
- - command: |
+  - command: |
         echo "+++ :hammer: Building" && \
         echo 1 | ./eosio_build.sh && \
         echo "--- :compression: Compressing build directory" && \
